@@ -1,0 +1,193 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE struts PUBLIC
+    "-//Apache Software Foundation//DTD Struts Configuration 2.3//EN"
+    "http://struts.apache.org/dtds/struts-2.3.dtd">
+
+<struts>
+	<package name="lecture" namespace="/lecture" extends="artn-common">
+        <interceptors>
+            <interceptor name="lectureCheck" class="artn.lect.controller.AuthLectureInterceptor"></interceptor>
+            <interceptor-stack name="lectureCheckStack">
+                <interceptor-ref name="lectureCheck"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="lectureCheckStack"></default-interceptor-ref>
+        
+        <action name="list" class="artn.lect.controller.LectureAction" method="list">
+            <result>/WEB-INF/view/lecture/list.jsp</result>
+        </action>
+        <action name="show" class="artn.lect.controller.LectureAction" method="show">
+            <result>/WEB-INF/view/group/show.jsp</result>
+        </action>
+        <action name="edit" class="artn.lect.controller.LectureAction" method="edit">
+            <result>/WEB-INF/view/group/edit.jsp</result>
+        </action>
+        <action name="write" class="artn.lect.controller.LectureAction" method="write">
+            <result>/WEB-INF/view/group/edit.jsp</result>
+        </action>
+        <action name="modify" class="artn.lect.controller.LectureAction" method="modify">
+            <result type="redirect">show?id=${id}</result>
+            <result name="modifyForNew" type="chain">modifyForNewAuth</result>
+        </action>
+        <action name="delete" class="artn.lect.controller.LectureAction" method="delete">
+            <result type="redirect">list?contents=${contents}</result>
+        </action>
+        <action name="start" class="artn.lect.controller.LectureAction" method="start">
+            <result type="redirect">list?id=${id_lect}&amp;start_end=${start_end}</result>
+        </action>
+        <action name="end" class="artn.lect.controller.LectureAction" method="end">
+            <result></result>
+        </action>
+        <action name="confirm" class="artn.lect.controller.LectureAction" method="confirm">
+            <result></result>
+        </action>
+        <action name="anyAttend" class="artn.lect.controller.LectureAction" method="anyAttend">
+            <result>/WEB-INF/view/lecture/anyAttend.jsp</result>
+        </action>
+        <action name="anyAttendConfirm" class="artn.lect.controller.LectureAction" method="anyAttendConfirm">
+            <result type="redirect">list?id=${id_lect}</result>
+        </action>
+        <action name="attendance" class="artn.lect.controller.LectureAction" method="attendance">
+            <result>/WEB-INF/view/lecture/attendance.jsp</result>
+        </action>
+        <action name="attendanceExcel" class="artn.lect.controller.LectureAction" method="attendanceExcel">
+            <result type="stream">
+            <param name="inputName">inputStream</param>
+            <param name="contentDisposition">attachment;filename=excel.xls</param>
+    		<param name="bufferSize">4096</param>
+    		</result>
+        </action>
+    </package>
+    
+    <package name="lectureEvaluation" namespace="/lectureEvaluation" extends="artn-common">
+        <interceptors>
+            <interceptor name="lectureCheck" class="artn.lect.controller.AuthLectureInterceptor"></interceptor>
+            <interceptor-stack name="lectureCheckStack">
+                <interceptor-ref name="lectureCheck"></interceptor-ref>
+                <interceptor-ref name="defaultStack"></interceptor-ref>
+            </interceptor-stack>
+        </interceptors>
+        <default-interceptor-ref name="lectureCheckStack"></default-interceptor-ref>
+        
+        <action name="list" class="artn.lect.controller.LectureEvaluationAction" method="list">
+            <result>/WEB-INF/view/lectureEvaluation/list.jsp</result>
+        </action>
+        
+        <action name="show" class="artn.lect.controller.LectureEvaluationAction" method="show">
+            <result>/WEB-INF/view/lectureEvaluation/list_pro.jsp</result>
+        </action>
+        
+        <action name="profshow" class="artn.lect.controller.LectureEvaluationAction" method="show">
+            <result>/WEB-INF/view/profEvaluation/list_pro.jsp</result>
+        </action>
+        
+        <action name="edit" class="artn.lect.controller.LectureEvaluationAction" method="edit">
+            <result>/WEB-INF/view/lectureEvaluation/show.jsp</result>
+        </action>
+        
+        <action name="modify" class="artn.lect.controller.LectureEvaluationAction" method="modify">
+            <result type="redirect">/lecture/list?id=${id_group}</result>
+        </action>
+		
+		<action name="answer_list" class="artn.lect.controller.LectureEvaluationAction" method="answer_list">
+            <result>/WEB-INF/view/lecture/evallist.jsp</result>
+        </action>
+        
+        <action name="answer_show" class="artn.lect.controller.LectureEvaluationAction" method="answer_show">
+            <result>/WEB-INF/view/lecture/evalshow.jsp</result>
+        </action>
+        
+        <action name="excel" class="artn.lect.controller.LectureEvaluationAction" method="excel">
+            <result type="stream">
+            <param name="inputName">inputStream</param>
+            <param name="contentDisposition">attachment;filename=${fileName}</param>
+    		<param name="bufferSize">4096</param>
+    		</result>
+        </action>
+        
+        <!-- 강의 평가 집계 현황 출력기능 추가 - 2014.03.07 by jhson [시작] -->
+        <action name="profResultShow" class="artn.lect.controller.LectureEvaluationAction" method="profResultShow">
+            <result>/WEB-INF/view/profEvaluation/evalshow.jsp</result>
+        </action>
+        
+        <action name="profResultExcel" class="artn.lect.controller.LectureEvaluationAction" method="profResultExcel">
+            <result type="stream">
+            <param name="inputName">inputStream</param>
+            <param name="contentDisposition">attachment;filename=${fileName}</param>
+    		<param name="bufferSize">4096</param>
+    		</result>
+        </action>
+        <!-- 강의 평가 집계 현황 출력기능 추가 - 2014.03.07 by jhson [종료] -->
+    </package>
+
+	<package name="attendanceResult" namespace="/attdResult" extends="artn-common">
+    
+        <action name="makeSheet" class="artn.lect.controller.AttendanceResultAction" method="makeSheet">
+        </action>
+		<action name="excel" class="artn.lect.controller.AttendanceResultAction" method="excel">
+			<result type="stream">
+            <param name="inputName">inputStream</param>
+            <param name="contentDisposition">attachment;filename=${fileName}</param>
+    		<param name="bufferSize">4096</param>
+    		</result>
+        </action>
+    </package>
+    
+    <package name="preview" namespace="/preview" extends="artn-common">    
+        <action name="list" class="artn.lect.controller.PreviewAction" method="list">
+            <result>/WEB-INF/view/preview/list.jsp</result>
+        </action>
+		<action name="edit" class="artn.lect.controller.PreviewAction" method="edit">
+            <result>/WEB-INF/view/preview/show.jsp</result>
+        </action>        
+        <action name="modify" class="artn.lect.controller.PreviewAction" method="modify">
+            <result type="redirect">/lecture/list?id=${id_group}</result>
+        </action>
+        <action name="answerlist" class="artn.common.controller.SurveyAction" method="list">
+        	<result>/WEB-INF/view/preview/answer_list.jsp</result>
+      	</action>
+      	<action name="answershow" class="artn.lect.controller.PreviewAction" method="show">
+        	<result>/WEB-INF/view/preview/answer_show.jsp</result>
+      	</action>
+      	<action name="excel" class="artn.lect.controller.PreviewAction" method="excel">
+            <result type="stream">
+            <param name="inputName">inputStream</param>
+            <param name="contentDisposition">attachment;filename=${fileName}</param>
+    		<param name="bufferSize">4096</param>
+    		</result>
+        </action>      	 
+    </package>
+    
+    <package name="survey" namespace="/preview/survey" extends="artn-common">
+	      <action name="list" class="artn.common.controller.SurveyAction" method="list">
+	        	<result>/WEB-INF/view/preview/survey/list.jsp</result>
+	      </action>    
+	        
+	      <action name="write" class="artn.common.controller.SurveyAction" method="write">
+	        	<result>/WEB-INF/view/preview/survey/edit.jsp</result>   
+	      </action>  
+	        
+	      <action name="modify" class="artn.common.controller.SurveyAction" method="modify">
+	      		<result type="redirect">list?id_group=${id_group}</result>
+	        	<!-- <result>/WEB-INF/view/preview/survey/edit.jsp</result> -->
+	      </action>
+	      
+	      <action name="delete" class="artn.common.controller.SurveyAction" method="delete">
+	            <result type="redirect">list</result>
+	            <!-- <result>/WEB-INF/view/preview/survey/edit.jsp</result> -->
+	      </action>
+	      
+	      <action name="show" class="artn.common.controller.SurveyAction" method="show">
+	            <result>/WEB-INF/view/preview/survey/show.jsp</result>
+	      </action>
+	        
+	       <action name="edit" class="artn.common.controller.SurveyAction" method="edit">
+	            <result>/WEB-INF/view/preview/survey/edit.jsp</result>
+	       </action> 
+	       
+	       <action name="surveyMenu" class="artn.common.controller.SurveyAction" method="surveyMenu">
+	            <result>/WEB-INF/view/preview/survey/survey_menu.jsp</result>
+	       </action> 
+    </package>
+</struts>

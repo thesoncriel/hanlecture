@@ -1,0 +1,23 @@
+<%@ tag body-content="scriptless" pageEncoding="UTF-8" description="공통으로 쓰이는 html 바탕 구조" trimDirectiveWhitespaces="true" %>
+<%@ attribute name="title" %>
+<%@ attribute name="contents" %>
+<%@ taglib prefix="s" uri="/struts-tags" %>
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />        
+        <title>Healing up 365</title>
+        <meta charset="utf-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+        <!-- <meta http-equiv="Expires" content="-1">  -->
+		<!-- <meta http-equiv="Pragma" content="no-cache"> --> 
+		<meta http-equiv="Cache-Control" content="no-cache"> 
+        <%--<meta name="viewport" content="initial-scale=1.0, user-scalable=no">--%>
+        <jsp:include page="/WEB-INF/include/title_css_script.htmlpart"/>
+    </head>
+
+    <body> 
+		<a href="/user/login" data-ajax="false">로그인</a>
+		<a href="/user/join" data-ajax="false">회원가입</a>
+	</body>
+</html>
